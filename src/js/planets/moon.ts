@@ -1,17 +1,19 @@
 import * as THREE from 'three';
-import Planet from './planet'
-import Config from "../config.js"
+import { PlanetParams } from 'src/js/types/planet'
+import Planet from "./planet";
+import Config from "src/config"
 
-// file
-import MoonMap from "../../../file/mesh/moon/moonmap2k.jpg";
-import MoonNormalMap from "../../../file/mesh/moon/moon-normal.jpg"
+// @ts-ignore
+import MoonMap from "src/file/mesh/moon/moonmap2k.jpg";
+// @ts-ignore
+import MoonNormalMap from "src/file/mesh/moon/moon-normal.jpg"
 
 export default class Moon extends Planet {
-    constructor(options = {})  {
-        super(Object.assign({}, Config.moon, options))
+    constructor(options?: PlanetParams) {
+        super(options || Config.moon);
     }
-
-    init() {
+    
+    createMesh() {
         const sphere = new THREE.SphereGeometry(this.radius, 100, 100);
         const textureLoader = new THREE.TextureLoader();
         const material = new THREE.MeshPhongMaterial({
@@ -22,6 +24,6 @@ export default class Moon extends Planet {
             normalScale: new THREE.Vector2(0.85, -0.85),
         })
         this.mesh = new THREE.Mesh(sphere, material);
-        this.mesh.position.set(...this.initPosition);
+        this.mesh.position.copy(this.initPosition);
     }
 }

@@ -1,15 +1,22 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        index: './src/index.js',
+        index: path.join(__dirname, '../src/index.ts'),
     },
     output: {
-        filename: '[name].bundle.js',
+        filename: 'js/[name].[contenthash].js',
         path: path.join(__dirname, '../dist'),
+    },
+    resolve: {
+        extensions: [".js", ".json", ".jsx", ".ts", ".tsx", ".d.ts", ".css", "sass", "scss"],
+        alias: {
+            "src": path.resolve(__dirname, '../src/'),
+            "#": path.resolve(__dirname, "../"),
+            "node_modules": path.join(__dirname, '../node_modules/'),
+        }
     },
     module: {
         rules: [
@@ -46,11 +53,18 @@ module.exports = {
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
-                use: ['url-loader'],
+                loader: 'url-loader',
+                options: {
+                    limit: 8192,
+                    name: "img/[name].[contenthash].[ext]"
+                }
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: ['file-loader'],
+                loader: 'file-loader',
+                options: {
+                    name: "file/[name].[contenthash].[ext]"
+                }
             },
             {
                 test: /\.(csv|tsv)$/,
@@ -60,14 +74,41 @@ module.exports = {
                 test: /\.xml$/,
                 use: ['xml-loader'],
             },
+            {
+                test: /\.tsx?$/,
+                use: "ts-loader",
+                exclude: /node_modules/
+            },
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[contenthash].css'
+        }),
         new HtmlWebpackPlugin({
             title: "Solar 3D",
-            favicon: './file/icon/earth.jpg'
+            favicon: './src/file/icon/earth.jpg'
         }),
-        new CleanWebpackPlugin(),
-    ]
+    ],
+    optimization: {
+        moduleIds: 'deterministic',
+        runtimeChunk: 'single',
+        // 代码分离
+        splitChunks: {
+            cacheGroups: {
+                // commons: {
+                //     chunks: 'all',
+                //     name: 'commons',
+                //     minChunks: 10,
+                //     enforce: true,
+                //     reuseExistingChunk: true //可设置是否重用该chunk（查看源码没有发现默认值）
+                // },
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
+            }
+        }
+    },
 }
