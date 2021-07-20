@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import * as Dat from "dat.gui";
 import Base from "./three/base"
 import Controller from './controller';
 import Config from '../config';
@@ -16,9 +17,13 @@ import Uranus from './planets/uranus';
 import Neptune from './planets/neptune';
 import Pluto from './planets/pluto';
 
+import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
+
 export default class Solar extends Base {
     sun: Sun;
     planets: Array<Planet> = [];
+    controlsType: string = '轨道控制器';
+    flyControls: FlyControls;
     
     constructor(sel: string, debug?: boolean) {
         super(sel, debug);
@@ -31,13 +36,14 @@ export default class Solar extends Base {
         this.createScene();
         this.createPerspectiveCamera();
         this.createRenderer();
-        this.createLight();
         this.createSun();
         this.createPlanets();
         this.createStars();
-        this.createOrbitControls();
+        this.createLight();
+        this.createControls();
         this.addListeners();
         this.setLoop();
+        this.createControlPanel();
         console.log('this.scene', this.scene)
     }
 
@@ -47,9 +53,12 @@ export default class Solar extends Base {
     }
 
     createLight(): void {
+        const light1 = new THREE.AmbientLight(0xffffff, 0.15);
+        this.scene.add(light1);
         // 模拟太阳直射光
-        const light = new THREE.AmbientLight();
-        this.scene.add(light);
+        const light2 = new THREE.PointLight(0xffffff);
+        this.sun && this.sun.mesh && light2.add(this.sun.mesh);
+        this.scene.add(light2);
     }
 
     createSun(): void {
@@ -92,8 +101,8 @@ export default class Solar extends Base {
         this.planets.push(pluto);
 
         this.planets.forEach(planet => {
-            this.scene.add(planet.mesh);
-            this.scene.add(planet.track);
+            planet.mesh && this.scene.add(planet.mesh);
+            planet.track && this.scene.add(planet.track);
         })
     }
 
@@ -149,6 +158,16 @@ export default class Solar extends Base {
         }
     }
 
+    createControls(): void {
+        this.controls = undefined;
+        this.flyControls = undefined;
+        if(this.controlsType === "飞行控制器") {
+            this.createFlyControls();
+        } else {
+            this.createOrbitControls();
+        }
+    }
+
     createOrbitControls(): void {
         super.createOrbitControls();
         // this.controls.autoRotate = true; // 自旋
@@ -156,10 +175,38 @@ export default class Solar extends Base {
         // this.controls.listenToKeyEvents(window as any); // 按键
     }
 
-    update() {
+    createFlyControls(): void {
+        const controls = new FlyControls(this.camera, this.renderer.domElement);
+        controls.rollSpeed = 0.0003;
+        controls.movementSpeed = 50;
+        // controls.dragToLook = true;
+        // controls.autoForward = false;
+        controls.update(Controller.timeInterval);
+        this.flyControls = controls;
+    }
+
+    updateControls(): void {
+        this.flyControls && this.flyControls.update(Controller.timeInterval);
+    }
+
+    update(): void {
         Controller.update();
+        this.updateControls();
         this.planets?.forEach(planet => {
             planet.run();
         })
+    }
+
+    createControlPanel(): void {
+        const gui = new Dat.GUI({
+            width: 150,
+            name: "控制",
+        })
+        gui
+            .add(this, "controlsType", ["轨道控制器", "飞行控制器"])
+            .name("控制器")
+            .onChange(() => {
+                this.createControls();
+            })
     }
 }
