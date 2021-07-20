@@ -6,6 +6,7 @@ import Controller from "src/js/controller";
 export default class Planet {
     mesh: THREE.Mesh; // 物体材质
     track: THREE.Mesh; // 运动轨迹
+    trackWidth: number | Function; // 轨迹宽度
 
     radius: number; // 物体半径
     initPosition: THREE.Vector3; // 初始位置
@@ -27,6 +28,7 @@ export default class Planet {
         rotationPeriod,
         obliquity = 0,
         mesh,
+        trackWidth = 100,
     }: PlanetParams) {
         this.radius = radius;
         this.initPosition = initPosition;
@@ -38,6 +40,7 @@ export default class Planet {
         this.obliquity = obliquity;
         this.rotationAxisVector3 = getNormalizedVectorFromObliquity(obliquity);
         mesh && (this.mesh = mesh);
+        this.trackWidth = trackWidth;
 
         const { x: cx, y: cy, z: cz } = center instanceof THREE.Vector3 ? center : center();
         const { x: ix, y: iy, z: iz } = this.initPosition;
@@ -51,13 +54,13 @@ export default class Planet {
         if(this.mesh && this.obliquity) {
             this.mesh.rotation.z = deg2rad(-1 * this.obliquity);
         }
-        this.createTrack();
+        this.distance && this.createTrack();
     }
 
     createMesh() {}
 
     createTrack(): void {
-        const width = 30;
+        const width = this.trackWidth instanceof Function ? this.trackWidth(this.radius) : this.trackWidth;
         const distance = this.distance;
         const track = new THREE.Mesh(
             new THREE.RingGeometry( distance - width / 2, distance + width / 2, 128, 1),
