@@ -10,4 +10,5 @@ export interface PlanetParams {
     obliquity?: number;
 
     mesh?: THREE.Mesh;
+    trackWidth?: number | Function;
 }
