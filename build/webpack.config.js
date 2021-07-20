@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         index: path.join(__dirname, '../src/index.ts'),
+        examples: path.join(__dirname, '../examples/planet/index.ts'),
+        earth: path.join(__dirname, '../examples/earth/index.ts'),
     },
     output: {
         filename: 'js/[name].[contenthash].js',
@@ -86,8 +88,25 @@ module.exports = {
             filename: 'css/[name].[contenthash].css'
         }),
         new HtmlWebpackPlugin({
+            filename: "index.html",
             title: "Solar 3D",
-            favicon: './src/file/icon/earth.jpg'
+            favicon: './src/file/icon/earth.jpg',
+            chunks: ["commons", "vendors", "runtime", "index"],
+            inject: "body",
+        }),
+        new HtmlWebpackPlugin({
+            filename: "examples/index.html",
+            title: "Solar 3D Examples",
+            favicon: './src/file/icon/earth.jpg',
+            chunks: ["commons", "vendors", "runtime", "examples"],
+            inject: "body",
+        }),
+        new HtmlWebpackPlugin({
+            filename: "examples/earth.html",
+            title: "Solar 3D Earth",
+            favicon: './src/file/icon/earth.jpg',
+            chunks: ["commons", "vendors", "runtime", "earth"],
+            inject: "body",
         }),
     ],
     optimization: {
@@ -96,6 +115,12 @@ module.exports = {
         // 代码分离
         splitChunks: {
             cacheGroups: {
+                commons: {
+                    chunks: 'initial',
+                    minChunks: 2,
+                    minSize: 0,
+                    name: "commons",
+                },
                 // commons: {
                 //     chunks: 'all',
                 //     name: 'commons',
@@ -103,11 +128,11 @@ module.exports = {
                 //     enforce: true,
                 //     reuseExistingChunk: true //可设置是否重用该chunk（查看源码没有发现默认值）
                 // },
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all',
-                },
+                // vendor: {
+                //     test: /[\\/]node_modules[\\/]/,
+                //     name: 'vendors',
+                //     chunks: 'all',
+                // },
             }
         }
     },
