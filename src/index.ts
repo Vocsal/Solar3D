@@ -1,14 +1,6 @@
 import "src/css/index.scss";
+import "src/css/solar.scss";
 
 import Solar from "src/js/solar";
-const solar = new Solar("body", true);
+const solar = new Solar("body");
 solar.init();
-
-
-// import PlanetSystem from "../examples/Planet/index";
-// const planetSystem = new PlanetSystem("body", true);
-// planetSystem.init();
-
-// import EarthSystem from "../examples/Earth/index";
-// const earthSystem = new EarthSystem("body", true);
-// earthSystem.init();
