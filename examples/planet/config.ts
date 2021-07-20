@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import Sun from "src/js/planets/Sun";
+import Sun from "src/js/planets/sun";
 import Mercury from "src/js/planets/mercury";
 import Venus from "src/js/planets/venus";
-import Earth from "src/js/planets/Earth";
+import Earth from "src/js/planets/earth";
 import Moon from "src/js/planets/moon";
 import Mars from "src/js/planets/mars";
 import Jupiter from "src/js/planets/jupiter";

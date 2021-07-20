@@ -24,10 +24,11 @@ export default {
         Moon: {
             radius: 0.1,
             initPosition: new THREE.Vector3(0, 0, 2.5),
-            rotationPeriod: 15000,
+            rotationPeriod: 41150,
             obliquity: 6.7,
-            orbitalPeriod: 10000,
+            orbitalPeriod: 41150,
             inclination: 5.1,
+            trackWidth: 0.01,
         },
     }
 }
