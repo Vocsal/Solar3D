@@ -29,7 +29,7 @@ export default class Planet {
         obliquity = 0,
         mesh,
         trackWidth = 100,
-    }: PlanetParams) {
+    }: PlanetParams = {}) {
         this.radius = radius;
         this.initPosition = initPosition;
         this.center = center;
@@ -50,7 +50,7 @@ export default class Planet {
     }
 
     init() {
-        this.createMesh();
+        this.radius && this.createMesh();
         if(this.mesh && this.obliquity) {
             this.mesh.rotation.z = deg2rad(-1 * this.obliquity);
         }
@@ -88,9 +88,9 @@ export default class Planet {
 
     rotationRun(): void {
         if(!this.rotationPeriod || this.rotationPeriod === 0) return;
-        const orbitalRad = calculateOrbitRad(this.rotationPeriod, Controller.timeInterval);
+        const rotationRad = calculateOrbitRad(this.rotationPeriod, Controller.timeInterval);
         // 考虑轴倾角
-        this.mesh.rotateOnWorldAxis(this.rotationAxisVector3, orbitalRad);
+        this.mesh.rotateOnWorldAxis(this.rotationAxisVector3, rotationRad);
     }
 
     run(): void {
@@ -101,5 +101,22 @@ export default class Planet {
     getPosition(): THREE.Vector3 {
         if(!this.mesh) return this.initPosition;
         return this.mesh.position;
+    }
+
+    /**
+     * @description 获取同步卫星的位置
+     * @param direction 方向，标准化向量
+     * @param distance 距离
+     */
+    getSynchronousMoonPosition(direction: THREE.Vector3, distance: number): THREE.Vector3 {
+        // 1. 先倾斜
+        const position1 = direction.multiplyScalar(distance);
+        const position2 = getOrbitalPosition(new THREE.Vector3(0, 0, 1), position1, deg2rad(this.obliquity))
+        // 2. 再旋转
+        const rotationRad = calculateOrbitRad(this.rotationPeriod, Controller.timeStamp);
+        const position3 = getOrbitalPosition(this.rotationAxisVector3, position2, rotationRad);
+
+        const thisPosition = this.mesh.position;
+        return position3.add(thisPosition);
     }
 }
