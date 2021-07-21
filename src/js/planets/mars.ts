@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { PlanetParams } from 'src/js/types/planet'
 import Planet from "./planet";
-import Config from "src/config"
 
 // @ts-ignore
 import MarsMap from "src/file/mesh/mars/mars_1k_color.jpg";
@@ -10,7 +9,7 @@ import MarsNormalMap from "src/file/mesh/mars/mars_1k_topo.jpg";
 
 export default class Mars extends Planet {
     constructor(options?: PlanetParams) {
-        super(options || Config.mars);
+        super(options);
     }
 
     createMesh() {

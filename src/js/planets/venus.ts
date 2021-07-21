@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { PlanetParams } from 'src/js/types/planet'
 import Planet from "./planet";
-import Config from "src/config"
 
 // @ts-ignore
 import VenusMap from "src/file/mesh/venus/venusmap.jpg"
@@ -10,7 +9,7 @@ import VenusBumpMap from "src/file/mesh/venus/venusbump.jpg"
 
 export default class Venus extends Planet {
     constructor(options?: PlanetParams) {
-        super(options || Config.venus);
+        super(options);
     }
 
     createMesh() {

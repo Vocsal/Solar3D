@@ -1,14 +1,10 @@
 import * as THREE from 'three';
 import { PlanetParams } from 'src/js/types/planet'
 import Planet from "./planet";
-import Config from "src/config"
-
-
-
 
 export default class Demo extends Planet {
     constructor(options?: PlanetParams) {
-        super(options || Config.earth);
+        super(options);
     }
 
     createMesh() {
