@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { PlanetParams } from 'src/js/types/planet'
 import Planet from "./planet";
-import Config from "src/config"
 
 // @ts-ignore
 import EarthMap from "src/file/mesh/earth/earth_atmos_2048.jpg";
@@ -13,8 +12,11 @@ import EarthNormalMap from "src/file/mesh/earth/earth_normal_2048.jpg";
 import EarthCloundsMap from "src/file/mesh/earth/earth_clouds_1024.png";
 
 export default class Earth extends Planet {
+    clouds: THREE.Mesh;
+    equator?: THREE.Mesh;
+    point?: THREE.Points;
     constructor(options?: PlanetParams) {
-        super(options || Config.earth);
+        super(options);
     }
 
     createMesh() {
@@ -31,13 +33,55 @@ export default class Earth extends Planet {
         this.mesh = new THREE.Mesh(sphere, meterial);
         this.mesh.position.copy(this.initPosition);
 
+        this.createClouds();
+
+        this.createEquator();
+    }
+
+    createClouds(): void {
+        if(!this.mesh) return;
+        // 云层
+        const sphere = new THREE.SphereGeometry(this.radius, 100, 100);
+        const textureLoader = new THREE.TextureLoader();
         const materialClouds = new THREE.MeshLambertMaterial({
             map: textureLoader.load(EarthCloundsMap),
             transparent: true
         });
         const meshClouds = new THREE.Mesh(sphere, materialClouds);
-        const cloudsScale = 1.005;
+        const cloudsScale = 1.0005;
         meshClouds.scale.set(cloudsScale, cloudsScale, cloudsScale);
         this.mesh.add(meshClouds);
+        this.clouds = meshClouds;
+
+        const point = new THREE.Points(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial());
+        point.position.copy(new THREE.Vector3(0, 0, 1));
+        this.mesh.add(point);
+        this.point = point;
+    }
+
+    createEquator(): void {
+        if(!this.mesh) return;
+        // 赤道
+        const equator = new THREE.Mesh(
+            new THREE.RingGeometry(this.radius*0.99, this.radius*1.01, 100, 1),
+            new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                side: THREE.DoubleSide,
+            })
+        )
+        equator.rotation.x = Math.PI / 2;
+        this.mesh.add(equator);
+    }
+
+    run(): void {
+        super.run();
+        // 云层转动
+        this.clouds && (this.clouds.rotation.y += Math.PI / 3600);
+    }
+
+    getSynchronousMoonPosition(direction: THREE.Vector3, distance: number): THREE.Vector3 {
+        const position = this.getPosition();
+        const pointPosition = this.point.getWorldPosition(new THREE.Vector3(0, 0, 0));
+        return pointPosition.sub(position).multiplyScalar(distance).add(position);
     }
 }
