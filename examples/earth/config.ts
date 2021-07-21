@@ -16,7 +16,7 @@ export default {
     lookAtPosition: new THREE.Vector3(0, 0, 0),
 
     options: {
-        Earch: {
+        Earth: {
             radius,
             rotationPeriod: 15000,
             obliquity: 23.4,
