@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import * as Dat from "dat.gui";
 import Base from "src/js/three/base"
 import Controller from 'src/js/controller';
 import Planet from 'src/js/planets/planet';
@@ -6,12 +7,15 @@ import Planet from 'src/js/planets/planet';
 import Config from "./config"
 import { getPlanet } from './util';
 
-import * as Dat from "dat.gui";
-
+const ControlsList = {
+    orbit: "轨道",
+    sync: "同步卫星",
+}
 export default class PlanetSystem extends Base {
     planetName: string;
     planet!: Planet;
     updating: boolean = true;
+    controlsType: string = ControlsList.sync;
     constructor(sel: string, debug?: boolean) {
         super(sel, debug);
         this.perspectiveCameraParams = Config.perspectiveCameraParams;
@@ -26,7 +30,7 @@ export default class PlanetSystem extends Base {
         this.createRenderer();
         this.createLight();
         this.createPlanet();
-        this.createOrbitControls();
+        this.createControls();
         this.addListeners();
         this.setLoop();
         this.createSelectPanel();
@@ -62,15 +66,38 @@ export default class PlanetSystem extends Base {
         this.updating = true;
     }
 
+    createControls(): void {
+        this.controls && this.controls.dispose();
+        this.controls = undefined;
+        if(this.controlsType === ControlsList.orbit) {
+            this.createOrbitControls();
+        }
+    }
+
     resetControl(): void {
         this.controls && this.controls.reset();
+    }
+
+    updateSynchronousMoonOfEarth(): void {
+        const planetPosition = this.planet.getPosition();
+        const synchronousMoonPosition = this.planet.getSynchronousMoonPosition(new THREE.Vector3(0, 0, 1), Config.options.Earth.radius * 3);
+        const camera = this.camera as THREE.PerspectiveCamera;
+        camera.position.copy(synchronousMoonPosition);
+        camera.lookAt(planetPosition);
+        camera.updateProjectionMatrix(); // 相机属性改变后，调用此方法对属性的更改生效
     }
 
     createSelectPanel(): void {
         const gui = new Dat.GUI({
             width: 150,
-            name: "行星选择",
+            name: "控制器",
         });
+        gui
+            .add(this, "controlsType", Object.values(ControlsList))
+            .name("控制")
+            .onChange(() => {
+                this.createControls();
+            })
         gui
             .add(this, "planetName", Object.keys(Config.Planets))
             .name("行星选择")
@@ -81,7 +108,8 @@ export default class PlanetSystem extends Base {
 
     update(): void {
         if(!this.updating) return;
-        Controller.update();
         this.planet.run();
+        this.controlsType === ControlsList.sync && this.updateSynchronousMoonOfEarth();
+        Controller.update();
     }
 }
