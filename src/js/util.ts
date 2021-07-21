@@ -24,6 +24,7 @@ export function deg2rad(deg: number): number {
  * @returns 弧度
  */
 export function calculateOrbitRad(period: number, timeStamp: number): number {
+    if(!period) return 0;
     const sign = period > 0 ? 1 : -1;
     return timeStamp % period / period * Math.PI * 2 * sign;
 }
