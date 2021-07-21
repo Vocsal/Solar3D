@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { PlanetParams } from 'src/js/types/planet'
 import Planet from "./planet";
-import Config from "src/config"
 
 // @ts-ignore
 import PlutoMap from "src/file/mesh/pluto/plutomap1k.jpg";
@@ -10,7 +9,7 @@ import PlutoBumpMap from "src/file/mesh/pluto/plutobump1k.jpg";
 
 export default class Pluto extends Planet {
     constructor(options?: PlanetParams) {
-        super(options || Config.pluto);
+        super(options);
     }
 
     createMesh() {
