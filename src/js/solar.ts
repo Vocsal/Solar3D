@@ -19,10 +19,17 @@ import Pluto from './planets/pluto';
 
 import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 
+const ControlsList = {
+    orbit: "轨道",
+    fly: "飞行",
+    sync: "地球同步卫星",
+}
+const ChinaSynchronousMoonVectorGenerator = (): THREE.Vector3 => new THREE.Vector3(0, 0, 1);
 export default class Solar extends Base {
     sun: Sun;
+    earth: Earth;
     planets: Array<Planet> = [];
-    controlsType: string = '轨道控制器';
+    controlsType: string = ControlsList.sync;
     flyControls: FlyControls;
     
     constructor(sel: string, debug?: boolean) {
@@ -53,6 +60,9 @@ export default class Solar extends Base {
     }
 
     createLight(): void {
+        // const light = new THREE.AmbientLight();
+        // this.scene.add(light);
+
         const light1 = new THREE.AmbientLight(0xffffff, 0.15);
         this.scene.add(light1);
         // 模拟太阳直射光
@@ -62,42 +72,43 @@ export default class Solar extends Base {
     }
 
     createSun(): void {
-        const sun = new Sun();
+        const sun = new Sun(Config.Sun);
         this.sun = sun;
         this.scene.add(sun.mesh);
     }
 
     createPlanets(): void {
-        const mercury = new Mercury();
+        const mercury = new Mercury(Config.Mercury);
         this.planets.push(mercury);
 
-        const venus = new Venus();
+        const venus = new Venus(Config.Venus);
         this.planets.push(venus);
         
-        const earth = new Earth();
+        const earth = new Earth(Config.Earth);
         this.planets.push(earth);
+        this.earth = earth;
 
-        const moon = new Moon(Object.assign({}, Config.moon, {
+        const moon = new Moon(Object.assign({}, Config.Moon, {
             center: earth.getPosition.bind(earth),
         }));
         this.planets.push(moon);
 
-        const mars = new Mars();
+        const mars = new Mars(Config.Mars);
         this.planets.push(mars);
 
-        const jupiter = new Jupiter();
+        const jupiter = new Jupiter(Config.Jupiter);
         this.planets.push(jupiter);
 
-        const saturn = new Saturn();
+        const saturn = new Saturn(Config.Saturn);
         this.planets.push(saturn);
 
-        const uranus = new Uranus();
+        const uranus = new Uranus(Config.Uranus);
         this.planets.push(uranus);
 
-        const neptune = new Neptune();
+        const neptune = new Neptune(Config.Neptune);
         this.planets.push(neptune);
 
-        const pluto = new Pluto();
+        const pluto = new Pluto(Config.Pluto);
         this.planets.push(pluto);
 
         this.planets.forEach(planet => {
@@ -159,11 +170,13 @@ export default class Solar extends Base {
     }
 
     createControls(): void {
+        this.controls && this.controls.dispose();
         this.controls = undefined;
+        this.flyControls && this.flyControls.dispose();
         this.flyControls = undefined;
-        if(this.controlsType === "飞行控制器") {
+        if(this.controlsType === ControlsList.fly) {
             this.createFlyControls();
-        } else {
+        } else if(this.controlsType === ControlsList.orbit) {
             this.createOrbitControls();
         }
     }
@@ -185,8 +198,18 @@ export default class Solar extends Base {
         this.flyControls = controls;
     }
 
+    updateSynchronousMoonOfEarth(): void {
+        const earthPosition = this.earth.getPosition();
+        const synchronousMoonPosition = this.earth.getSynchronousMoonPosition(ChinaSynchronousMoonVectorGenerator(), Config.Earth.radius * 3);
+        const camera = this.camera as THREE.PerspectiveCamera;
+        camera.position.copy(synchronousMoonPosition);
+        camera.lookAt(earthPosition);
+        camera.updateProjectionMatrix(); // 相机属性改变后，调用此方法对属性的更改生效
+    }
+
     updateControls(): void {
-        this.flyControls && this.flyControls.update(Controller.timeInterval);
+        this.controlsType === ControlsList.fly && this.flyControls && this.flyControls.update(Controller.timeInterval);
+        this.controlsType === ControlsList.sync && this.updateSynchronousMoonOfEarth();
     }
 
     update(): void {
@@ -203,7 +226,7 @@ export default class Solar extends Base {
             name: "控制",
         })
         gui
-            .add(this, "controlsType", ["轨道控制器", "飞行控制器"])
+            .add(this, "controlsType", Object.values(ControlsList))
             .name("控制器")
             .onChange(() => {
                 this.createControls();
