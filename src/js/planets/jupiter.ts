@@ -6,6 +6,7 @@ import Planet from "./planet";
 import JupiterMap from "src/file/mesh/jupiter/jupitermap.jpg";
 
 export default class Jupiter extends Planet {
+    name: string = "Jupiter";
     constructor(options?: PlanetParams) {
         super(options);
     }

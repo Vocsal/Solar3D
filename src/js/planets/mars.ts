@@ -8,6 +8,7 @@ import MarsMap from "src/file/mesh/mars/mars_1k_color.jpg";
 import MarsNormalMap from "src/file/mesh/mars/mars_1k_topo.jpg";
 
 export default class Mars extends Planet {
+    name: string = "Mars";
     constructor(options?: PlanetParams) {
         super(options);
     }

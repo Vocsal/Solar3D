@@ -6,6 +6,7 @@ import Planet from "./planet";
 import SunMap from "src/file/mesh/sun/2k_sun.jpg";
 
 export default class Sun extends Planet {
+    name: string = "Sun";
     constructor(options?: PlanetParams) {
         super(options);
     }

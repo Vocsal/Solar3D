@@ -8,6 +8,7 @@ import VenusMap from "src/file/mesh/venus/venusmap.jpg"
 import VenusBumpMap from "src/file/mesh/venus/venusbump.jpg"
 
 export default class Venus extends Planet {
+    name: string = "Venus";
     constructor(options?: PlanetParams) {
         super(options);
     }
