@@ -190,8 +190,8 @@ export default class Solar extends Base {
 
     createFlyControls(): void {
         const controls = new FlyControls(this.camera, this.renderer.domElement);
-        controls.rollSpeed = 0.0003;
-        controls.movementSpeed = 50;
+        controls.rollSpeed = 0.0002;
+        controls.movementSpeed = 10;
         // controls.dragToLook = true;
         // controls.autoForward = false;
         controls.update(Controller.timeInterval);
