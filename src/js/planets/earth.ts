@@ -12,9 +12,9 @@ import EarthNormalMap from "src/file/mesh/earth/earth_normal_2048.jpg";
 import EarthCloundsMap from "src/file/mesh/earth/earth_clouds_1024.png";
 
 export default class Earth extends Planet {
+    name: string = "Earth";
     clouds: THREE.Mesh;
     equator?: THREE.Mesh;
-    point?: THREE.Points;
     constructor(options?: PlanetParams) {
         super(options);
     }
@@ -35,7 +35,7 @@ export default class Earth extends Planet {
 
         this.createClouds();
 
-        this.createEquator();
+        // this.createEquator();
     }
 
     createClouds(): void {
@@ -52,11 +52,6 @@ export default class Earth extends Planet {
         meshClouds.scale.set(cloudsScale, cloudsScale, cloudsScale);
         this.mesh.add(meshClouds);
         this.clouds = meshClouds;
-
-        const point = new THREE.Points(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial());
-        point.position.copy(new THREE.Vector3(0, 0, 1));
-        this.mesh.add(point);
-        this.point = point;
     }
 
     createEquator(): void {
@@ -77,11 +72,5 @@ export default class Earth extends Planet {
         super.run();
         // 云层转动
         this.clouds && (this.clouds.rotation.y += Math.PI / 3600);
-    }
-
-    getSynchronousMoonPosition(direction: THREE.Vector3, distance: number): THREE.Vector3 {
-        const position = this.getPosition();
-        const pointPosition = this.point.getWorldPosition(new THREE.Vector3(0, 0, 0));
-        return pointPosition.sub(position).multiplyScalar(distance).add(position);
     }
 }
