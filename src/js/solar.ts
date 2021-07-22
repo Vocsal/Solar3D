@@ -19,17 +19,11 @@ import Pluto from './planets/pluto';
 
 import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 
-const ControlsList = {
-    orbit: "轨道",
-    fly: "飞行",
-    sync: "地球同步卫星",
-}
-const ChinaSynchronousMoonVectorGenerator = (): THREE.Vector3 => new THREE.Vector3(0, 0, 1);
 export default class Solar extends Base {
     sun: Sun;
     earth: Earth;
     planets: Array<Planet> = [];
-    controlsType: string = ControlsList.sync;
+    controlsType: string = Config.defaultControls;
     flyControls: FlyControls;
     
     constructor(sel: string, debug?: boolean) {
@@ -115,6 +109,8 @@ export default class Solar extends Base {
             planet.mesh && this.scene.add(planet.mesh);
             planet.track && this.scene.add(planet.track);
         })
+
+        this.setPeriod(Config.periodScaleGenerator(this.controlsType));
     }
 
     createStars(): void {
@@ -174,10 +170,14 @@ export default class Solar extends Base {
         this.controls = undefined;
         this.flyControls && this.flyControls.dispose();
         this.flyControls = undefined;
-        if(this.controlsType === ControlsList.fly) {
+        if(this.controlsType === Config.controlsList.fly) {
             this.createFlyControls();
-        } else if(this.controlsType === ControlsList.orbit) {
+        } else if(this.controlsType === Config.controlsList.orbit) {
             this.createOrbitControls();
+            const camera = this.camera as THREE.PerspectiveCamera;
+            camera.position.copy(this.cameraPosition);
+            camera.lookAt(this.lookAtPosition);
+            camera.updateProjectionMatrix();
         }
     }
 
@@ -198,9 +198,23 @@ export default class Solar extends Base {
         this.flyControls = controls;
     }
 
+    setPeriod(scale: number = 1): void {
+        this.planets.forEach(planet => {
+            // @ts-ignore
+            const { orbitalPeriod, rotationPeriod } = Config[planet.name];
+            planet.setPeriod({
+                orbitalPeriod: orbitalPeriod * scale,
+                rotationPeriod: rotationPeriod * scale,
+            })
+        })
+    }
+
     updateSynchronousMoonOfEarth(): void {
         const earthPosition = this.earth.getPosition();
-        const synchronousMoonPosition = this.earth.getSynchronousMoonPosition(ChinaSynchronousMoonVectorGenerator(), Config.Earth.radius * 3);
+        const synchronousMoonPosition = this.earth.getSynchronousMoonPosition(
+            Config.ChinaSynchronousMoonVector.clone(),
+            Config.Earth.radius * 3
+        );
         const camera = this.camera as THREE.PerspectiveCamera;
         camera.position.copy(synchronousMoonPosition);
         camera.lookAt(earthPosition);
@@ -208,16 +222,20 @@ export default class Solar extends Base {
     }
 
     updateControls(): void {
-        this.controlsType === ControlsList.fly && this.flyControls && this.flyControls.update(Controller.timeInterval);
-        this.controlsType === ControlsList.sync && this.updateSynchronousMoonOfEarth();
+        this.controlsType === Config.controlsList.fly && this.flyControls && this.flyControls.update(Controller.timeInterval);
+        this.controlsType === Config.controlsList.sync && this.updateSynchronousMoonOfEarth();
+        this.setPeriod(Config.periodScaleGenerator(this.controlsType));
     }
 
     update(): void {
-        Controller.update();
-        this.updateControls();
         this.planets?.forEach(planet => {
             planet.run();
         })
+        this.updateControls();
+        Controller.update();
+        // 为了保持 Controller.timeStamp, Controller.timeInterval 引起的自转差异，必须保持Controller在最后更新
+        // 即自转和公转都是从时间0起始点开始的
+        // 维持一致性
     }
 
     createControlPanel(): void {
@@ -226,7 +244,7 @@ export default class Solar extends Base {
             name: "控制",
         })
         gui
-            .add(this, "controlsType", Object.values(ControlsList))
+            .add(this, "controlsType", Object.values(Config.controlsList))
             .name("控制器")
             .onChange(() => {
                 this.createControls();

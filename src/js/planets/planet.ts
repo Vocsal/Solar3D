@@ -5,17 +5,17 @@ import Controller from "src/js/controller";
 
 export default class Planet {
     mesh: THREE.Mesh; // 物体材质
-    track: THREE.Mesh; // 运动轨迹
-    trackWidth: number | Function; // 轨迹宽度
+    track?: THREE.Mesh; // 运动轨迹
+    trackWidth?: number | Function; // 轨迹宽度
 
     radius: number; // 物体半径
     initPosition: THREE.Vector3; // 初始位置
     center: THREE.Vector3 | Function; // 公转中心
     distance: number = 0; // 公转半径
-    orbitalPeriod: number; // 公转周期，周期以分钟为基准
+    orbitalPeriod: number; // 公转周期，基于periodScale
     inclination: number; // 轨道倾角
     orbitalAxisVector3: THREE.Vector3; // 轨道转轴标准化向量
-    rotationPeriod: number; // 自转周期
+    rotationPeriod: number; // 自转周期，基于periodScale
     obliquity: number; // 转轴倾角
     rotationAxisVector3: THREE.Vector3;  // 自转转轴标准化向量
 
@@ -60,6 +60,7 @@ export default class Planet {
     createMesh() {}
 
     createTrack(): void {
+        if(!this.trackWidth) return;
         const width = this.trackWidth instanceof Function ? this.trackWidth(this.radius) : this.trackWidth;
         const distance = this.distance;
         const track = new THREE.Mesh(
@@ -72,6 +73,11 @@ export default class Planet {
         track.rotation.x = Math.PI / 2;
         track.rotation.y = deg2rad(this.inclination);
         this.track = track;
+    }
+
+    setPeriod({orbitalPeriod, rotationPeriod}: {orbitalPeriod?: number, rotationPeriod?: number} = {}): void {
+        this.orbitalPeriod = orbitalPeriod || this.orbitalPeriod;
+        this.rotationPeriod = rotationPeriod || this.rotationPeriod;
     }
 
     orbitalRun(): void {

@@ -5,7 +5,6 @@ const Center = new THREE.Vector3(0, 0, 0);
 
 const SunPosition = Center; // 太阳位置
 
-const periodScale = 1 / 100;
 // ["real", "compare", "test"]
 const type = "compare";
 
@@ -165,6 +164,19 @@ const CameraFov = calculatePerspectiveCameraFov(SunRadius, CameraToCenterDistanc
 // const CameraNormalizeVector = new THREE.Vector3( -1598, 622, 4587 ).normalize();
 const CameraNormalizeVector = new THREE.Vector3( 0, 920, 5439 ).normalize();
 // const CameraNormalizeVector = new THREE.Vector3( 0, 1, 0 ).normalize();
+
+const controlsList = {
+    orbit: "轨道",
+    fly: "飞行",
+    sync: "地球同步卫星",
+}
+const defaultControls = controlsList.sync;
+const periodScaleGenerator = (type: string): number => {
+	if(type === controlsList.sync) return 1 / 100;
+	return 1 / 1000;
+}
+const periodScale = periodScaleGenerator(defaultControls);
+const ChinaSynchronousMoonVector = new THREE.Vector3(0.2931436949654428, 1.6525710207101858, -2.4865791351997784).normalize();
 export default {
 	perspectiveCameraParams: {
 		fov: CameraFov,
@@ -189,9 +201,9 @@ export default {
 		radius: MercuryRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, MercuryToSunDistance),
-		orbitalPeriod: 88.0 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 88.0 * 24 * 60 * 1000,
 		inclination: 7.0,
-		rotationPeriod: 1407.6 * 60 * 1000 * periodScale,
+		rotationPeriod: 1407.6 * 60 * 1000,
 		obliquity: 0.034,
 		trackWidth,
 	},
@@ -199,9 +211,9 @@ export default {
 		radius: VenusRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, VenusToSunDistance),
-		orbitalPeriod: 224.7 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 224.7 * 24 * 60 * 1000,
 		inclination: 3.4,
-		rotationPeriod: -5832.5 * 60 * 1000 * periodScale,
+		rotationPeriod: -5832.5 * 60 * 1000,
 		obliquity: 177.4,
 		trackWidth,
 	},
@@ -209,9 +221,9 @@ export default {
 		radius: EarthRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, EarthToSunDistance),
-		orbitalPeriod: 365.2 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 365.2 * 24 * 60 * 1000,
 		inclination: 0.0,
-		rotationPeriod: 23.9 * 60 * 1000 * periodScale,
+		rotationPeriod: 23.9 * 60 * 1000,
 		obliquity: 23.4,
 		trackWidth,
 	},
@@ -219,9 +231,9 @@ export default {
 		radius: MoonRadius,
 		center: new THREE.Vector3(0, 0, EarthToSunDistance), // 地球的中心 变化的 Function
 		initPosition: new THREE.Vector3(0, 0, EarthToSunDistance + MoonToEarthDistance),
-		orbitalPeriod: 27.32 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 27.32 * 24 * 60 * 1000,
 		inclination: 5.1,
-		rotationPeriod: 655.7 * 60 * 1000 * periodScale,
+		rotationPeriod: 655.7 * 60 * 1000,
 		obliquity: 6.7,
 		trackWidth,
 	},
@@ -229,9 +241,9 @@ export default {
 		radius: MarsRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, MarsToSunDistance),
-		orbitalPeriod: 687.0 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 687.0 * 24 * 60 * 1000,
 		inclination: 1.9,
-		rotationPeriod: 24.6 * 60 * 1000 * periodScale,
+		rotationPeriod: 24.6 * 60 * 1000,
 		obliquity: 25.2,
 		trackWidth,
 	},
@@ -239,9 +251,9 @@ export default {
 		radius: JupiterRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, JupiterToSunDistance),
-		orbitalPeriod: 4331 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 4331 * 24 * 60 * 1000,
 		inclination: 1.3,
-		rotationPeriod: 9.9 * 60 * 1000 * periodScale,
+		rotationPeriod: 9.9 * 60 * 1000,
 		obliquity: 3.1,
 		trackWidth,
 	},
@@ -249,9 +261,9 @@ export default {
 		radius: SaturnRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, SaturnToSunDistance),
-		orbitalPeriod: 10747 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 10747 * 24 * 60 * 1000,
 		inclination: 2.5,
-		rotationPeriod: 10.7 * 60 * 1000 * periodScale,
+		rotationPeriod: 10.7 * 60 * 1000,
 		obliquity: 26.7,
 		trackWidth,
 	},
@@ -259,9 +271,9 @@ export default {
 		radius: UranusRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, UranusToSunDistance),
-		orbitalPeriod: 30589 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 30589 * 24 * 60 * 1000,
 		inclination: 0.8,
-		rotationPeriod: -17.2 * 60 * 1000 * periodScale,
+		rotationPeriod: -17.2 * 60 * 1000,
 		obliquity: 97.8,
 		trackWidth,
 	},
@@ -269,9 +281,9 @@ export default {
 		radius: NeptuneRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, NeptuneToSunDistance),
-		orbitalPeriod: 59800 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 59800 * 24 * 60 * 1000,
 		inclination: 1.8,
-		rotationPeriod: 16.1 * 60 * 1000 * periodScale,
+		rotationPeriod: 16.1 * 60 * 1000,
 		obliquity: 28.3,
 		trackWidth,
 	},
@@ -279,10 +291,17 @@ export default {
 		radius: PlutoRadius,
 		center: SunPosition,
 		initPosition: new THREE.Vector3(0, 0, PlutoToSunDistance),
-		orbitalPeriod: 90560 * 24 * 60 * 1000 * periodScale,
+		orbitalPeriod: 90560 * 24 * 60 * 1000,
 		inclination: 17.2,
-		rotationPeriod: -153.3 * 60 * 1000 * periodScale,
+		rotationPeriod: -153.3 * 60 * 1000,
 		obliquity: 122.5,
 		trackWidth,
 	},
+
+	controlsList,
+	defaultControls,
+	periodScaleGenerator,
+	periodScale,
+
+	ChinaSynchronousMoonVector,
 }
