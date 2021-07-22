@@ -1,30 +1,14 @@
 export default class Controller {
-    static preTimeStamp: number  = Date.now();
+    static preTimeStamp: number  = 0; // 即自转和公转都是从时间0起始点开始的
+    static timeInterval: number = Date.now();
     static timeStamp: number = Date.now();
-    static timeInterval: number = 0;
 
     static update(): void {
         Controller.preTimeStamp = Controller.timeStamp;
         Controller.timeStamp = Date.now();
         Controller.timeInterval = Controller.timeStamp - Controller.preTimeStamp;
+        // 保证Controller更新的时候在最后调用
+        // 为了保持 Controller.timeStamp, Controller.timeInterval 引起的自转差异，必须保持Controller在最后更新
+        // 维持一致性
     }    
 }
-
-// import * as THREE from 'three';
-
-// const Base = Date.now();
-// const Clock = new THREE.Clock();
-// Clock.start();
-
-// export default class Controller {
-//     static preTimeStamp: number  = Base + Clock.oldTime * 1000;
-//     static timeStamp: number = Base + Clock.startTime * 1000;
-//     static timeInterval: number = Clock.getDelta() * 1000;
-
-//     static update(): void {
-//         const delta = Clock.getDelta();
-//         Controller.preTimeStamp = Controller.timeStamp;
-//         Controller.timeStamp += delta * 1000;
-//         Controller.timeInterval = delta * 1000;
-//     }
-// }
