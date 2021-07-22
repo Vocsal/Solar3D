@@ -6,6 +6,7 @@ import Planet from "./planet";
 import mercuryMap from "src/file/mesh/mercury/2k_mercury.jpg";
 
 export default class Mercury extends Planet {
+    name: string = "Mercury";
     constructor(options?: PlanetParams) {
         super(options);
     }

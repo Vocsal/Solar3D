@@ -6,6 +6,7 @@ import Planet from "./planet";
 import SaturnMap from "src/file/mesh/saturn/2K_saturn.jpg";
 
 export default class Saturn extends Planet {
+    name: string = "Saturn";
     constructor(options?: PlanetParams) {
         super(options);
     }

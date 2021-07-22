@@ -6,6 +6,7 @@ import Planet from "./planet";
 import NeptuneMap from "src/file/mesh/neptune/neptunemap.jpg";
 
 export default class Neptune extends Planet {
+    name: string = "Neptune";
     constructor(options?: PlanetParams) {
         super(options);
     }

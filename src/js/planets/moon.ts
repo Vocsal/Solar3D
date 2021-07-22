@@ -8,6 +8,7 @@ import MoonMap from "src/file/mesh/moon/moonmap2k.jpg";
 import MoonNormalMap from "src/file/mesh/moon/moon-normal.jpg"
 
 export default class Moon extends Planet {
+    name: string = "Moon";
     constructor(options?: PlanetParams) {
         super(options);
     }

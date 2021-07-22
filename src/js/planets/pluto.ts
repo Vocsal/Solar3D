@@ -8,6 +8,7 @@ import PlutoMap from "src/file/mesh/pluto/plutomap1k.jpg";
 import PlutoBumpMap from "src/file/mesh/pluto/plutobump1k.jpg";
 
 export default class Pluto extends Planet {
+    name: string = "Pluto";
     constructor(options?: PlanetParams) {
         super(options);
     }

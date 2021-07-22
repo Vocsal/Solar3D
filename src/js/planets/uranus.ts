@@ -6,6 +6,7 @@ import Planet from "./planet";
 import UranusMap from "src/file/mesh/uranus/2K_uranus.jpg";
 
 export default class Uranus extends Planet {
+    name: string = "Uranus";
     constructor(options?: PlanetParams) {
         super(options);
     }
