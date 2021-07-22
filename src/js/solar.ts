@@ -165,6 +165,13 @@ export default class Solar extends Base {
         }
     }
 
+    resetCamera(): void {
+        const camera = this.camera as THREE.PerspectiveCamera;
+        camera.position.copy(this.cameraPosition);
+        camera.lookAt(this.lookAtPosition);
+        camera.updateProjectionMatrix();
+    }
+
     createControls(): void {
         this.controls && this.controls.dispose();
         this.controls = undefined;
@@ -172,12 +179,10 @@ export default class Solar extends Base {
         this.flyControls = undefined;
         if(this.controlsType === Config.controlsList.fly) {
             this.createFlyControls();
+            this.resetCamera();
         } else if(this.controlsType === Config.controlsList.orbit) {
             this.createOrbitControls();
-            const camera = this.camera as THREE.PerspectiveCamera;
-            camera.position.copy(this.cameraPosition);
-            camera.lookAt(this.lookAtPosition);
-            camera.updateProjectionMatrix();
+            this.resetCamera();
         }
     }
 
@@ -251,3 +256,7 @@ export default class Solar extends Base {
             })
     }
 }
+
+/**
+ * 存在重复切换至同步卫星控制未监控同一位置问题
+ */
