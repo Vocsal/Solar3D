@@ -11,6 +11,7 @@ module.exports = {
     output: {
         filename: 'js/[name].[contenthash].js',
         path: path.join(__dirname, '../dist'),
+        // path: path.join(__dirname, '../../web_home/static/solar3d'),
     },
     resolve: {
         extensions: [".js", ".json", ".jsx", ".ts", ".tsx", ".d.ts", ".css", "sass", "scss"],
