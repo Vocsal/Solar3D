@@ -6,6 +6,7 @@ const scale = 2;
 const CameraToCenterDistance = 5;
 const CameraFov = calculatePerspectiveCameraFov(radius, CameraToCenterDistance, scale);
 
+const ChinaSynchronousMoonVector = new THREE.Vector3(0.2931436949654428, 1.6525710207101858, -2.4865791351997784).normalize();
 export default {
     perspectiveCameraParams: {
         fov: CameraFov,
@@ -30,5 +31,7 @@ export default {
             inclination: 5.1,
             trackWidth: 0.01,
         },
-    }
+    },
+
+    ChinaSynchronousMoonVector,
 }

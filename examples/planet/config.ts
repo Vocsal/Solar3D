@@ -87,6 +87,7 @@ const options = {
     },
 }
 
+const ChinaSynchronousMoonVector = new THREE.Vector3(0.2931436949654428, 1.6525710207101858, -2.4865791351997784).normalize();
 export default {
     perspectiveCameraParams: {
         fov: CameraFov,
@@ -98,4 +99,6 @@ export default {
 
     Planets,
     options,
+
+    ChinaSynchronousMoonVector,
 }

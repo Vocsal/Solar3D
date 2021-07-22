@@ -14,7 +14,7 @@ const ControlsList = {
 export default class EarthSystem extends Base {
     earth!: Earth;
     moon!: Moon;
-    controlsType: string = ControlsList.sync;
+    controlsType: string = ControlsList.orbit;
     constructor(sel: string, debug?: boolean) {
         super(sel, debug);
         this.perspectiveCameraParams = Config.perspectiveCameraParams;
@@ -72,7 +72,10 @@ export default class EarthSystem extends Base {
 
     updateSynchronousMoonOfEarth(): void {
         const earthPosition = this.earth.getPosition();
-        const synchronousMoonPosition = this.earth.getSynchronousMoonPosition(new THREE.Vector3(0, 0, 1), Config.options.Earth.radius * 3);
+        const synchronousMoonPosition = this.earth.getSynchronousMoonPosition(
+            Config.ChinaSynchronousMoonVector.clone(),
+            Config.options.Earth.radius * 3
+        );
         const camera = this.camera as THREE.PerspectiveCamera;
         camera.position.copy(synchronousMoonPosition);
         camera.lookAt(earthPosition);
@@ -80,10 +83,13 @@ export default class EarthSystem extends Base {
     }
 
     update(): void {
-        Controller.update();
         this.earth.run();
         this.moon.run();
         this.controlsType === ControlsList.sync && this.updateSynchronousMoonOfEarth();
+        Controller.update();
+        // 为了保持 Controller.timeStamp, Controller.timeInterval 引起的自转差异，必须保持Controller在最后更新
+        // 即自转和公转都是从时间0起始点开始的
+        // 维持一致性
     }
 
     createControlPanel(): void {
