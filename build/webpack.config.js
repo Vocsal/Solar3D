@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         index: path.join(__dirname, '../src/index.ts'),
-        examples: path.join(__dirname, '../examples/planet/index.ts'),
+        planets: path.join(__dirname, '../examples/planet/index.ts'),
         earth: path.join(__dirname, '../examples/earth/index.ts'),
     },
     output: {
@@ -59,7 +59,6 @@ module.exports = {
                 options: {
                     limit: 8192,
                     name: "img/[name].[contenthash].[ext]",
-                    publicPath: "../",
                 }
             },
             {
@@ -67,7 +66,6 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: "file/[name].[contenthash].[ext]",
-                    publicPath: "../",
                 }
             },
             {
@@ -97,20 +95,18 @@ module.exports = {
             inject: "body",
         }),
         new HtmlWebpackPlugin({
-            filename: "examples/index.html",
+            filename: "planets.html",
             title: "Solar 3D Examples",
             favicon: './src/file/icon/earth.jpg',
-            chunks: ["commons", "vendors", "runtime", "examples"],
+            chunks: ["commons", "vendors", "runtime", "planets"],
             inject: "body",
-            publicPath: "./",
         }),
         new HtmlWebpackPlugin({
-            filename: "examples/earth.html",
+            filename: "earth.html",
             title: "Solar 3D Earth",
             favicon: './src/file/icon/earth.jpg',
             chunks: ["commons", "vendors", "runtime", "earth"],
             inject: "body",
-            publicPath: "../",
         }),
     ],
     optimization: {
