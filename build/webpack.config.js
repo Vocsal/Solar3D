@@ -11,7 +11,6 @@ module.exports = {
     output: {
         filename: 'js/[name].[contenthash].js',
         path: path.join(__dirname, '../dist'),
-        // path: path.join(__dirname, '../../web_home/static/solar3d'),
     },
     resolve: {
         extensions: [".js", ".json", ".jsx", ".ts", ".tsx", ".d.ts", ".css", "sass", "scss"],
@@ -59,14 +58,16 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: "img/[name].[contenthash].[ext]"
+                    name: "img/[name].[contenthash].[ext]",
+                    publicPath: "../",
                 }
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 loader: 'file-loader',
                 options: {
-                    name: "file/[name].[contenthash].[ext]"
+                    name: "file/[name].[contenthash].[ext]",
+                    publicPath: "../",
                 }
             },
             {
@@ -101,6 +102,7 @@ module.exports = {
             favicon: './src/file/icon/earth.jpg',
             chunks: ["commons", "vendors", "runtime", "examples"],
             inject: "body",
+            publicPath: "./",
         }),
         new HtmlWebpackPlugin({
             filename: "examples/earth.html",
@@ -108,6 +110,7 @@ module.exports = {
             favicon: './src/file/icon/earth.jpg',
             chunks: ["commons", "vendors", "runtime", "earth"],
             inject: "body",
+            publicPath: "../",
         }),
     ],
     optimization: {
