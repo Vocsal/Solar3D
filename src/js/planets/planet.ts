@@ -51,9 +51,7 @@ export default class Planet {
 
     init() {
         this.radius && this.createMesh();
-        if(this.mesh && this.obliquity) {
-            this.mesh.rotation.z = deg2rad(-1 * this.obliquity);
-        }
+        this.reset();
         this.distance && this.createTrack();
     }
 
@@ -73,6 +71,13 @@ export default class Planet {
         track.rotation.x = Math.PI / 2;
         track.rotation.y = deg2rad(this.inclination);
         this.track = track;
+    }
+
+    reset(): void {
+        if(this.mesh && this.obliquity) {
+            // 倾斜
+            this.mesh.setRotationFromEuler(new THREE.Euler(0, 0, deg2rad(-1 * this.obliquity)));
+        }
     }
 
     setPeriod({orbitalPeriod, rotationPeriod}: {orbitalPeriod?: number, rotationPeriod?: number} = {}): void {
