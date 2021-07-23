@@ -25,6 +25,8 @@ export default class Solar extends Base {
     planets: Array<Planet> = [];
     controlsType: string = Config.defaultControls;
     flyControls: FlyControls;
+
+    updating: boolean = true;
     
     constructor(sel: string, debug?: boolean) {
         super(sel, debug);
@@ -165,6 +167,11 @@ export default class Solar extends Base {
         }
     }
 
+    reset(): void {
+        Controller.reset();
+        this.planets.forEach(planet => planet.reset());
+    }
+
     resetCamera(): void {
         const camera = this.camera as THREE.PerspectiveCamera;
         camera.position.copy(this.cameraPosition);
@@ -184,6 +191,7 @@ export default class Solar extends Base {
             this.createOrbitControls();
             this.resetCamera();
         }
+        this.setPeriod(Config.periodScaleGenerator(this.controlsType));
     }
 
     createOrbitControls(): void {
@@ -229,18 +237,15 @@ export default class Solar extends Base {
     updateControls(): void {
         this.controlsType === Config.controlsList.fly && this.flyControls && this.flyControls.update(Controller.timeInterval);
         this.controlsType === Config.controlsList.sync && this.updateSynchronousMoonOfEarth();
-        this.setPeriod(Config.periodScaleGenerator(this.controlsType));
     }
 
     update(): void {
+        if(!this.updating) return;
+        Controller.update();
         this.planets?.forEach(planet => {
             planet.run();
         })
         this.updateControls();
-        Controller.update();
-        // 为了保持 Controller.timeStamp, Controller.timeInterval 引起的自转差异，必须保持Controller在最后更新
-        // 即自转和公转都是从时间0起始点开始的
-        // 维持一致性
     }
 
     createControlPanel(): void {
@@ -252,7 +257,10 @@ export default class Solar extends Base {
             .add(this, "controlsType", Object.values(Config.controlsList))
             .name("控制器")
             .onChange(() => {
+                this.updating = false;
+                this.reset();
                 this.createControls();
+                this.updating = true;
             })
     }
 }

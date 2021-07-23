@@ -111,11 +111,8 @@ export default class PlanetSystem extends Base {
 
     update(): void {
         if(!this.updating) return;
+        Controller.update();
         this.planet.run();
         this.controlsType === ControlsList.sync && this.updateSynchronousMoonOfEarth();
-        Controller.update();
-        // 为了保持 Controller.timeStamp, Controller.timeInterval 引起的自转差异，必须保持Controller在最后更新
-        // 即自转和公转都是从时间0起始点开始的
-        // 维持一致性
     }
 }
