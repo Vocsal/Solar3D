@@ -5,6 +5,7 @@ import Planet from "./planet";
 // @ts-ignore
 import SaturnMap from "src/file/mesh/saturn/2K_saturn.jpg";
 
+const Name = "Saturn";
 export default class Saturn extends Planet {
     name: string = "Saturn";
     constructor(options?: PlanetParams) {
@@ -20,5 +21,8 @@ export default class Saturn extends Planet {
             map: textureLoader.load(SaturnMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
     }
+
+    // 星环
 }

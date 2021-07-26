@@ -11,8 +11,10 @@ import EarthNormalMap from "src/file/mesh/earth/earth_normal_2048.jpg";
 // @ts-ignore
 import EarthCloundsMap from "src/file/mesh/earth/earth_clouds_1024.png";
 
+const Name = "Earth";
+
 export default class Earth extends Planet {
-    name: string = "Earth";
+    name: string = Name;
     clouds: THREE.Mesh;
     equator?: THREE.Mesh;
     constructor(options?: PlanetParams) {
@@ -31,6 +33,7 @@ export default class Earth extends Planet {
             normalScale: new THREE.Vector2(0.85, -0.85),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
 
         this.createClouds();
 
@@ -49,6 +52,7 @@ export default class Earth extends Planet {
         const meshClouds = new THREE.Mesh(sphere, materialClouds);
         const cloudsScale = 1.0005;
         meshClouds.scale.set(cloudsScale, cloudsScale, cloudsScale);
+        meshClouds.name = Name + "-Clouds";
         this.mesh.add(meshClouds);
         this.clouds = meshClouds;
     }
@@ -64,6 +68,7 @@ export default class Earth extends Planet {
             })
         )
         equator.rotation.x = Math.PI / 2;
+        equator.name = "Equator";
         this.mesh.add(equator);
     }
 

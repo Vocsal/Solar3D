@@ -7,6 +7,7 @@ import VenusMap from "src/file/mesh/venus/venusmap.jpg"
 // @ts-ignore
 import VenusBumpMap from "src/file/mesh/venus/venusbump.jpg"
 
+const Name = "Venus";
 export default class Venus extends Planet {
     name: string = "Venus";
     constructor(options?: PlanetParams) {
@@ -23,5 +24,6 @@ export default class Venus extends Planet {
             bumpMap: textureLoader.load(VenusBumpMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
     }
 }

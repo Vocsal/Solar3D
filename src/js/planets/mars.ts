@@ -7,6 +7,7 @@ import MarsMap from "src/file/mesh/mars/mars_1k_color.jpg";
 // @ts-ignore
 import MarsNormalMap from "src/file/mesh/mars/mars_1k_topo.jpg";
 
+const Name = "Mars";
 export default class Mars extends Planet {
     name: string = "Mars";
     constructor(options?: PlanetParams) {
@@ -24,5 +25,6 @@ export default class Mars extends Planet {
             normalScale: new THREE.Vector2(0.85, -0.85),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
     }
 }

@@ -5,6 +5,7 @@ import Planet from "./planet";
 // @ts-ignore
 import NeptuneMap from "src/file/mesh/neptune/neptunemap.jpg";
 
+const Name = "Neptune";
 export default class Neptune extends Planet {
     name: string = "Neptune";
     constructor(options?: PlanetParams) {
@@ -20,5 +21,6 @@ export default class Neptune extends Planet {
             map: textureLoader.load(NeptuneMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
     }
 }

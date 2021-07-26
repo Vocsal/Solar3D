@@ -5,6 +5,7 @@ import Planet from "./planet";
 // @ts-ignore
 import mercuryMap from "src/file/mesh/mercury/mercury_1024.jpg";
 
+const Name = "Mercury";
 export default class Mercury extends Planet {
     name: string = "Mercury";
     constructor(options?: PlanetParams) {
@@ -20,5 +21,6 @@ export default class Mercury extends Planet {
             map: textureLoader.load(mercuryMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
     }
 }

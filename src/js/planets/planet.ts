@@ -70,6 +70,7 @@ export default class Planet {
         )
         track.rotation.x = Math.PI / 2;
         track.rotation.y = deg2rad(this.inclination);
+        track.name = "Track";
         this.track = track;
     }
 
