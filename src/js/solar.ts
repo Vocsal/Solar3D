@@ -47,6 +47,7 @@ export default class Solar extends Base {
         this.addListeners();
         this.setLoop();
         this.createControlPanel();
+        this.onClickIntersect();
         console.log('this.scene', this.scene)
     }
 
@@ -68,43 +69,43 @@ export default class Solar extends Base {
     }
 
     createSun(): void {
-        const sun = new Sun(Config.Sun);
+        const sun = new Sun(Config.planets.Sun);
         this.sun = sun;
         this.scene.add(sun.mesh);
     }
 
     createPlanets(): void {
-        const mercury = new Mercury(Config.Mercury);
+        const mercury = new Mercury(Config.planets.Mercury);
         this.planets.push(mercury);
 
-        const venus = new Venus(Config.Venus);
+        const venus = new Venus(Config.planets.Venus);
         this.planets.push(venus);
         
-        const earth = new Earth(Config.Earth);
+        const earth = new Earth(Config.planets.Earth);
         this.planets.push(earth);
         this.earth = earth;
 
-        const moon = new Moon(Object.assign({}, Config.Moon, {
+        const moon = new Moon(Object.assign({}, Config.planets.Moon, {
             center: earth.getPosition.bind(earth),
         }));
         this.planets.push(moon);
 
-        const mars = new Mars(Config.Mars);
+        const mars = new Mars(Config.planets.Mars);
         this.planets.push(mars);
 
-        const jupiter = new Jupiter(Config.Jupiter);
+        const jupiter = new Jupiter(Config.planets.Jupiter);
         this.planets.push(jupiter);
 
-        const saturn = new Saturn(Config.Saturn);
+        const saturn = new Saturn(Config.planets.Saturn);
         this.planets.push(saturn);
 
-        const uranus = new Uranus(Config.Uranus);
+        const uranus = new Uranus(Config.planets.Uranus);
         this.planets.push(uranus);
 
-        const neptune = new Neptune(Config.Neptune);
+        const neptune = new Neptune(Config.planets.Neptune);
         this.planets.push(neptune);
 
-        const pluto = new Pluto(Config.Pluto);
+        const pluto = new Pluto(Config.planets.Pluto);
         this.planets.push(pluto);
 
         this.planets.forEach(planet => {
@@ -214,7 +215,7 @@ export default class Solar extends Base {
     setPeriod(scale: number = 1): void {
         this.planets.forEach(planet => {
             // @ts-ignore
-            const { orbitalPeriod, rotationPeriod } = Config[planet.name];
+            const { orbitalPeriod, rotationPeriod } = Config.planets[planet.name];
             planet.setPeriod({
                 orbitalPeriod: orbitalPeriod * scale,
                 rotationPeriod: rotationPeriod * scale,
@@ -226,7 +227,7 @@ export default class Solar extends Base {
         const earthPosition = this.earth.getPosition();
         const synchronousMoonPosition = this.earth.getSynchronousMoonPosition(
             Config.ChinaSynchronousMoonVector.clone(),
-            Config.Earth.radius * 3
+            Config.planets.Earth.radius * 3
         );
         const camera = this.camera as THREE.PerspectiveCamera;
         camera.position.copy(synchronousMoonPosition);
@@ -263,8 +264,18 @@ export default class Solar extends Base {
                 this.updating = true;
             })
     }
-}
 
-/**
- * 存在重复切换至同步卫星控制未监控同一位置问题
- */
+    createRaycaster(): void {
+        this.raycaster = new THREE.Raycaster();
+    }
+
+    onClickIntersect(): void {
+        this.createRaycaster();
+        window.addEventListener("click", (e) => {
+            this.setMousePos(e);
+            const intersects = this.getInterSects();
+            if(!intersects.length) return;
+            console.log('intersects', intersects);
+        })
+    }
+}
