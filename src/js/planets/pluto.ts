@@ -7,6 +7,7 @@ import PlutoMap from "src/file/mesh/pluto/plutomap1k.jpg";
 // @ts-ignore
 import PlutoBumpMap from "src/file/mesh/pluto/plutobump1k.jpg";
 
+const Name = "Pluto";
 export default class Pluto extends Planet {
     name: string = "Pluto";
     constructor(options?: PlanetParams) {
@@ -23,5 +24,6 @@ export default class Pluto extends Planet {
             bumpMap: textureLoader.load(PlutoBumpMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
     }
 }

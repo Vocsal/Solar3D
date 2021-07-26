@@ -5,6 +5,7 @@ import Planet from "./planet";
 // @ts-ignore
 import SunMap from "src/file/mesh/sun/2k_sun.jpg";
 
+const Name = "Sun";
 export default class Sun extends Planet {
     name: string = "Sun";
     constructor(options?: PlanetParams) {
@@ -21,5 +22,6 @@ export default class Sun extends Planet {
             side: THREE.DoubleSide,
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
+        this.mesh.name = Name;
     }
 }

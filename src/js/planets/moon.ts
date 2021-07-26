@@ -7,6 +7,7 @@ import MoonMap from "src/file/mesh/moon/moon_map_1024.jpg";
 // @ts-ignore
 import MoonNormalMap from "src/file/mesh/moon/moon-normal.jpg"
 
+const Name = "Moon";
 export default class Moon extends Planet {
     name: string = "Moon";
     constructor(options?: PlanetParams) {
@@ -24,5 +25,6 @@ export default class Moon extends Planet {
             normalScale: new THREE.Vector2(0.85, -0.85),
         })
         this.mesh = new THREE.Mesh(sphere, material);
+        this.mesh.name = Name;
     }
 }
