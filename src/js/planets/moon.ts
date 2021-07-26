@@ -3,7 +3,7 @@ import { PlanetParams } from 'src/js/types/planet'
 import Planet from "./planet";
 
 // @ts-ignore
-import MoonMap from "src/file/mesh/moon/moonmap2k.jpg";
+import MoonMap from "src/file/mesh/moon/moon_map_1024.jpg";
 // @ts-ignore
 import MoonNormalMap from "src/file/mesh/moon/moon-normal.jpg"
 

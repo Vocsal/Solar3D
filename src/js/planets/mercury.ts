@@ -3,7 +3,7 @@ import { PlanetParams } from 'src/js/types/planet'
 import Planet from "./planet";
 
 // @ts-ignore
-import mercuryMap from "src/file/mesh/mercury/2k_mercury.jpg";
+import mercuryMap from "src/file/mesh/mercury/mercury_1024.jpg";
 
 export default class Mercury extends Planet {
     name: string = "Mercury";
