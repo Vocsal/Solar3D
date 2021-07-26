@@ -74,9 +74,9 @@ export default class Planet {
     }
 
     reset(): void {
-        if(this.mesh && this.obliquity) {
-            // 倾斜
-            this.mesh.setRotationFromEuler(new THREE.Euler(0, 0, deg2rad(-1 * this.obliquity)));
+        if(this.mesh) {
+            this.initPosition && this.mesh.position.copy(this.initPosition); // 初始化位置
+            this.obliquity && this.mesh.setRotationFromEuler(new THREE.Euler(0, 0, deg2rad(-1 * this.obliquity))); // 倾斜
         }
     }
 

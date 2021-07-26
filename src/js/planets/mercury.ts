@@ -20,6 +20,5 @@ export default class Mercury extends Planet {
             map: textureLoader.load(mercuryMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }

@@ -21,6 +21,5 @@ export default class Sun extends Planet {
             side: THREE.DoubleSide,
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }

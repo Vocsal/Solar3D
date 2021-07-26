@@ -20,6 +20,5 @@ export default class Uranus extends Planet {
             map: textureLoader.load(UranusMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }

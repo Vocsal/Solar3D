@@ -23,6 +23,5 @@ export default class Pluto extends Planet {
             bumpMap: textureLoader.load(PlutoBumpMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }
