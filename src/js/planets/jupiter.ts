@@ -20,6 +20,5 @@ export default class Jupiter extends Planet {
             map: textureLoader.load(JupiterMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }

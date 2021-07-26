@@ -24,6 +24,5 @@ export default class Moon extends Planet {
             normalScale: new THREE.Vector2(0.85, -0.85),
         })
         this.mesh = new THREE.Mesh(sphere, material);
-        this.mesh.position.copy(this.initPosition);
     }
 }

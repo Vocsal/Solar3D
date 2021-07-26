@@ -20,6 +20,5 @@ export default class Neptune extends Planet {
             map: textureLoader.load(NeptuneMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }

@@ -23,6 +23,5 @@ export default class Venus extends Planet {
             bumpMap: textureLoader.load(VenusBumpMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }

@@ -24,6 +24,5 @@ export default class Mars extends Planet {
             normalScale: new THREE.Vector2(0.85, -0.85),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }

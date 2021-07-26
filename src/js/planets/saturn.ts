@@ -20,6 +20,5 @@ export default class Saturn extends Planet {
             map: textureLoader.load(SaturnMap),
         })
         this.mesh = new THREE.Mesh(sphere, meterial);
-        this.mesh.position.copy(this.initPosition);
     }
 }
