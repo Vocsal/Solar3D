@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import * as Dat from "dat.gui";
+import { PlanetName } from 'src/js/types/planet'
 import Base from "src/js/three/base"
 import Controller from 'src/js/controller';
 import Planet from 'src/js/planets/planet';
@@ -12,7 +13,7 @@ const ControlsList = {
     sync: "同步卫星",
 }
 export default class PlanetSystem extends Base {
-    planetName: string;
+    planetName: PlanetName;
     planet!: Planet;
     updating: boolean = true;
     controlsType: string = ControlsList.orbit;
@@ -57,7 +58,7 @@ export default class PlanetSystem extends Base {
         this.planet && this.scene.remove(this.planet.mesh);
     }
 
-    changePlanet(name: string): void {
+    changePlanet(name: PlanetName): void {
         this.updating = false;
         this.removePlanet();
         this.resetControl();
@@ -104,7 +105,7 @@ export default class PlanetSystem extends Base {
         gui
             .add(this, "planetName", Object.keys(Config.Planets))
             .name("行星选择")
-            .onChange((value: string) => {
+            .onChange((value: PlanetName) => {
                 this.changePlanet(value);
             });
     }

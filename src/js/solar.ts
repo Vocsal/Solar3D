@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import * as Dat from "dat.gui";
+import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import Base from "./three/base"
 import Controller from './controller';
 import Config from '../config';
@@ -214,8 +215,7 @@ export default class Solar extends Base {
 
     setPeriod(scale: number = 1): void {
         this.planets.forEach(planet => {
-            // @ts-ignore
-            const { orbitalPeriod, rotationPeriod } = Config.planets[planet.name];
+            const { orbitalPeriod, rotationPeriod } = Config.planets[planet.name as PlanetName] as PlanetParams;
             planet.setPeriod({
                 orbitalPeriod: orbitalPeriod * scale,
                 rotationPeriod: rotationPeriod * scale,

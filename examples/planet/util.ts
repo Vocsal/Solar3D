@@ -1,18 +1,16 @@
 import Planet from 'src/js/planets/planet';
-import { PlanetParams } from 'src/js/types/planet'
+import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import Config from "./config";
 
 interface PlanetClass {
     new (options: PlanetParams): Planet,
-    name: string,
+    name: PlanetName,
 }
 
-export function getPlanet(name: string): Planet {
-    // @ts-ignore
+export function getPlanet(name: PlanetName): Planet {
     return new Config.Planets[name](getPlanetOptions(name));
 }
 
-export function getPlanetOptions(name: string) {
-    // @ts-ignore
+export function getPlanetOptions(name: PlanetName) {
     return Config.options[name];
 }

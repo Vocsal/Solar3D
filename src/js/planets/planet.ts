@@ -1,9 +1,10 @@
 import * as THREE from 'three';
-import { PlanetParams } from 'src/js/types/planet'
+import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import { calculateOrbitRad, deg2rad, getNormalizedVectorFromObliquity, getNormalizedVectorFromInclination, getOrbitalPosition } from "src/js/util";
 import Controller from "src/js/controller";
 
 export default class Planet {
+    name: PlanetName;
     mesh: THREE.Mesh; // 物体材质
     track?: THREE.Mesh; // 运动轨迹
     trackWidth?: number | Function; // 轨迹宽度
