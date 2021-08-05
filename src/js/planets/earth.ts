@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { PlanetParams } from 'src/js/types/planet'
+import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import Planet from "./planet";
 
 // @ts-ignore
@@ -14,7 +14,7 @@ import EarthCloundsMap from "src/file/mesh/earth/earth_clouds_1024.png";
 const Name = "Earth";
 
 export default class Earth extends Planet {
-    name: string = Name;
+    name: PlanetName = Name;
     clouds: THREE.Mesh;
     equator?: THREE.Mesh;
     constructor(options?: PlanetParams) {

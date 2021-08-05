@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { PlanetParams } from 'src/js/types/planet'
+import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import Planet from "./planet";
 
 // @ts-ignore
@@ -7,7 +7,7 @@ import JupiterMap from "src/file/mesh/jupiter/jupitermap.jpg";
 
 const Name = "Jupiter";
 export default class Jupiter extends Planet {
-    name: string = "Jupiter";
+    name: PlanetName = "Jupiter";
     constructor(options?: PlanetParams) {
         super(options);
     }

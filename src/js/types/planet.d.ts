@@ -12,3 +12,5 @@ export interface PlanetParams {
     mesh?: THREE.Mesh;
     trackWidth?: number | Function;
 }
+
+export type PlanetName = "Sun" | "Mercury" | "Venus" | "Earth" | "Moon" | "Mars" | "Jupiter" | "Saturn" | "Uranus" | "Neptune" | "Pluto";
