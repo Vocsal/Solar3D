@@ -6,7 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 // 模块分析
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(baseConfig, {
     mode: 'production',
@@ -17,10 +17,10 @@ module.exports = merge(baseConfig, {
         new CleanWebpackPlugin(),
 
         // 模块分析
-        new BundleAnalyzerPlugin({
-            analyzerHost: "dev.solar3d.com",
-            analyzerPort: 7777,
-        })
+        // new BundleAnalyzerPlugin({
+        //     analyzerHost: "dev.solar3d.com",
+        //     analyzerPort: 7777,
+        // })
     ],
     optimization: {
         minimizer: [
