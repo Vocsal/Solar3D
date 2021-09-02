@@ -3,12 +3,12 @@ const { merge } = require('webpack-merge');
 const prodConfig = require('./webpack.prod.config.js');
 
 const WebHomeStaticDirName = "solar3d";
-const WebHomeStaticDir = '/home/nginx/nginx/public/code01.cn/';
+const WebHomeStaticDir = path.join(__dirname, "../../server-nginx/nginx/public/code01.cn/");
 
 const config = merge(prodConfig, {
     output: {
         path: path.join(WebHomeStaticDir, WebHomeStaticDirName),
-        publicPath: "/" + WebHomeStaticDirName,
+        publicPath: "/" + WebHomeStaticDirName + "/",
     },
 })
 module.exports = config;
