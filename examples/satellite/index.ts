@@ -1,13 +1,4 @@
-import * as THREE from "three";
-import Base from "src/js/three/base"
-
-export default class Satellite extends Base {
-
-    init(): void {
-        this.createScene();
-        this.createPerspectiveCamera();
-        this.createRenderer();
-        this.createLight();
-
-    }
-}
+import "src/css/index.scss";
+import Satellite from "./satellite";
+const satellite = new Satellite("body", true);
+satellite.init();
