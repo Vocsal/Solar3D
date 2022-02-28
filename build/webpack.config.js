@@ -7,6 +7,7 @@ module.exports = {
         index: path.join(__dirname, '../src/index.ts'),
         planets: path.join(__dirname, '../examples/planet/index.ts'),
         earth: path.join(__dirname, '../examples/earth/index.ts'),
+        satellite: path.join(__dirname, '../examples/satellite/index.ts'),
     },
     output: {
         filename: 'js/[name].[contenthash].js',
@@ -106,6 +107,13 @@ module.exports = {
             title: "Solar 3D Earth",
             favicon: './src/file/icon/earth.jpg',
             chunks: ["commons", "vendors", "runtime", "earth"],
+            inject: "body",
+        }),
+        new HtmlWebpackPlugin({
+            filename: "satellite.html",
+            title: "Solar 3D Satellite",
+            favicon: './src/file/icon/earth.jpg',
+            chunks: ["commons", "vendors", "runtime", "satellite"],
             inject: "body",
         }),
     ],
