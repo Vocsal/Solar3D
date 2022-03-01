@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import { calculateOrbitRad, deg2rad, getNormalizedVectorFromObliquity, getNormalizedVectorFromInclination, getOrbitalPosition } from "src/js/util";
 import Controller from "src/js/controller";
 

@@ -1,5 +1,4 @@
 import Planet from 'src/js/planets/planet';
-import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import Config from "./config";
 
 interface PlanetClass {

@@ -6,7 +6,6 @@
 
 import * as THREE from "three";
 import { rad2deg } from "src/js/util"
-import { MeshObject } from "src/js/types/index";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
