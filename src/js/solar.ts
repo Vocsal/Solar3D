@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import * as Dat from "dat.gui";
-import { PlanetParams, PlanetName } from 'src/js/types/planet'
-import Base from "./three/base"
+import Base from "./three/base";
 import Controller from './controller';
 import Config from '../config';
 
@@ -20,6 +19,8 @@ import Pluto from './planets/pluto';
 
 import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 
+import Pannel from "src/js/other/pannel";
+
 export default class Solar extends Base {
     sun: Sun;
     earth: Earth;
@@ -28,6 +29,8 @@ export default class Solar extends Base {
     flyControls: FlyControls;
 
     updating: boolean = true;
+
+    pannel: Pannel;
     
     constructor(sel: string, debug?: boolean) {
         super(sel, debug);
@@ -50,6 +53,12 @@ export default class Solar extends Base {
         this.createControlPanel();
         this.onClickIntersect();
         console.log('this.scene', this.scene)
+        this.pannel = new Pannel({
+            name: 'planet description',
+            title: '介绍',
+            background: "transparent",
+            color: "rgba(255, 255, 255, 1)",
+        });
     }
 
     createRenderer(): void {
@@ -272,10 +281,18 @@ export default class Solar extends Base {
     onClickIntersect(): void {
         this.createRaycaster();
         window.addEventListener("click", (e) => {
+            const dom = e.target || e.srcElement;
+            if(this.pannel.dom.contains(dom as HTMLElement)) return;
             this.setMousePos(e);
             const intersects = this.getInterSects();
-            if(!intersects.length) return;
-            console.log('intersects', intersects);
+            const planetIntersection: THREE.Intersection = intersects.find(({object}) => Object.keys(Config.planets).includes(object.name));
+            if(!planetIntersection) {
+                this.pannel.setList();
+            } else {
+                const planetName: PlanetName = planetIntersection.object.name as PlanetName;
+                this.pannel.setList(Config.descriptions[planetName]);
+            }
+            this.pannel.update();
         })
     }
 }
