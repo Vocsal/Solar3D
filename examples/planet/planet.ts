@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import * as Dat from "dat.gui";
-import { PlanetName } from 'src/js/types/planet'
-import Base from "src/js/three/base"
+import Base from "src/js/three/base";
 import Controller from 'src/js/controller';
 import Planet from 'src/js/planets/planet';
 

@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { PlanetParams, PlanetName } from 'src/js/types/planet'
 import Planet from "./planet";
 
 // @ts-ignore
