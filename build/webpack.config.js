@@ -55,17 +55,10 @@ module.exports = {
                 loader: 'html-loader',
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|otf)$/,
                 loader: 'url-loader',
                 options: {
                     limit: 8192,
-                    name: "img/[name].[contenthash].[ext]",
-                }
-            },
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/,
-                loader: 'file-loader',
-                options: {
                     name: "file/[name].[contenthash].[ext]",
                 }
             },
