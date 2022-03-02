@@ -1,0 +1,12 @@
+const dom = document.createElement('div');
+dom.style.zIndex = "-999";
+dom.style.position = 'absolute';
+dom.style.width = '100vw';
+dom.style.height = '100vh';
+// const bodyWidth = document.body.clientWidth;
+// let fontSize = "1em";
+dom.style.display = 'flex';
+dom.style.alignItems = 'center';
+dom.style.justifyContent = 'center';
+dom.innerText = "正在加载资源...";
+document.body.appendChild(dom);
