@@ -889,6 +889,11 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.15.tgz#6a9d143f7f4f49db2d782f9e1c8839a29b43ae23"
   integrity sha512-15spi3V28QdevleWBNXE4pIls3nFZmBbUGrW9IVPwiQczuSb9n76TCB4bsk8TSel+I1OkHEdPhu5QKMfY6rQHA==
 
+"@ppzp/noty@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ppzp/noty/-/noty-0.0.3.tgz#e1e90e6dbf373f27a9e63967a1a80e4791d3bfde"
+  integrity sha512-+/fnskhxXfXLGs807PZdMxk7qRIK3ENqkYqdVgRffn18FkPkGT5vgRmTZyqpG0qXBCpJlSecoaEzMiCqCR83Kg==
+
 "@trysound/sax@0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.1.1.tgz#3348564048e7a2d7398c935d466c0414ebb6a669"
