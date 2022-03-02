@@ -20,6 +20,7 @@ import Pluto from './planets/pluto';
 import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 
 import Pannel from "src/js/other/pannel";
+import Notify from "src/js/other/Notify";
 
 export default class Solar extends Base {
     sun: Sun;
@@ -40,6 +41,7 @@ export default class Solar extends Base {
     }
 
     init() {
+        this.createControlPanel();
         this.createScene();
         this.createPerspectiveCamera();
         this.createRenderer();
@@ -50,7 +52,6 @@ export default class Solar extends Base {
         this.createControls();
         this.addListeners();
         this.setLoop();
-        this.createControlPanel();
         this.onClickIntersect();
         console.log('this.scene', this.scene)
         this.pannel = new Pannel({
@@ -198,9 +199,14 @@ export default class Solar extends Base {
         if(this.controlsType === Config.controlsList.fly) {
             this.createFlyControls();
             this.resetCamera();
+            Notify.introFlyController();
         } else if(this.controlsType === Config.controlsList.orbit) {
             this.createOrbitControls();
             this.resetCamera();
+            Notify.initOritController();
+            Notify.introPlanetClick();
+        } else if(this.controlsType === Config.controlsList.sync) {
+            Notify.introSyncController();
         }
         this.setPeriod(Config.periodScaleGenerator(this.controlsType));
     }
@@ -269,9 +275,11 @@ export default class Solar extends Base {
             .onChange(() => {
                 this.updating = false;
                 this.reset();
+                Notify.closeAll();
                 this.createControls();
                 this.updating = true;
             })
+        Notify.introController();
     }
 
     createRaycaster(): void {
@@ -282,7 +290,8 @@ export default class Solar extends Base {
         this.createRaycaster();
         window.addEventListener("click", (e) => {
             const dom = e.target || e.srcElement;
-            if(this.pannel.dom.contains(dom as HTMLElement)) return;
+            if(this.pannel.dom.contains(dom as HTMLElement)) return; // 点击面板跳过
+            if(this.controlsType !== Config.controlsList.orbit) return; // 非轨道控制器跳过
             this.setMousePos(e);
             const intersects = this.getInterSects();
             const planetIntersection: THREE.Intersection = intersects.find(({object}) => Object.keys(Config.planets).includes(object.name));
