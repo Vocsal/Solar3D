@@ -36,7 +36,7 @@ export default class Notify {
     }
 
     static introSyncController(): notyJs.notyContent {
-        return notyInfo("地球同步卫星：体验地球同步卫星视角")
+        return notyInfo("地球同步卫星：体验不一样的视角")
     }
 
     static introPlanetClick(): notyJs.notyContent {
