@@ -170,7 +170,7 @@ const controlsList = {
     fly: "飞行",
     sync: "地球同步卫星",
 }
-const defaultControls = controlsList.orbit;
+const defaultControls = controlsList.sync;
 const periodScaleGenerator = (type: string): number => {
 	if(type === controlsList.sync) return 1 / 100;
 	return 1 / 1000;
