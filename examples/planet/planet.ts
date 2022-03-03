@@ -3,10 +3,10 @@ import * as Dat from "dat.gui";
 import Base from "src/js/three/base";
 import Controller from 'src/js/controller';
 import Planet from 'src/js/planets/planet';
+import Pannel from "src/js/other/pannel";
 
 import Config from "./config"
 import { getPlanet } from './util';
-
 const ControlsList = {
     orbit: "轨道",
     sync: "同步卫星",
@@ -16,6 +16,7 @@ export default class PlanetSystem extends Base {
     planet!: Planet;
     updating: boolean = true;
     controlsType: string = ControlsList.orbit;
+    pannel: Pannel;
     constructor(sel: string, debug?: boolean) {
         super(sel, debug);
         this.perspectiveCameraParams = Config.perspectiveCameraParams;
@@ -24,6 +25,13 @@ export default class PlanetSystem extends Base {
     }
 
     init(): void {
+        this.pannel = new Pannel({
+            name: 'planet description',
+            title: '介绍',
+            background: "transparent",
+            color: "rgba(255, 255, 255, 1)",
+            top: "50px",
+        });
         this.planetName = "Earth";
         this.createScene();
         this.createPerspectiveCamera();
@@ -51,6 +59,8 @@ export default class PlanetSystem extends Base {
         const planet = getPlanet(this.planetName);
         this.scene.add(planet.mesh);
         this.planet = planet;
+        this.pannel.setList(Config.descriptions[this.planetName]);
+        this.pannel.update();
     }
 
     removePlanet(): void{
