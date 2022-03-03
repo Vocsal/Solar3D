@@ -88,12 +88,12 @@ export default class Pannel {
             this.list.forEach(({label, value}) => {
                 const liDom = document.createElement("li");
                 liDom.style.display = 'grid';
-                liDom.style.gridTemplateColumns = '62px 1fr';
+                liDom.style.gridTemplateColumns = '70px 1fr';
                 liDom.style.columnGap = '12px';
                 liDom.style.margin = '6px 0';
                 const labelDom = document.createElement("span");
                 labelDom.style.textAlign = 'right';
-                labelDom.style.fontWeight = 'bold';
+                // labelDom.style.fontWeight = 'bold';
                 labelDom.innerHTML = label;
                 liDom.appendChild(labelDom);
                 const valueDom = document.createElement('span');
