@@ -6,6 +6,8 @@ declare interface PannelListValue {
 declare interface PannelOptions {
     name?: string;
     className?: string;
+    top?: string;
+    left?: string;
     maxWidth?: string;
     background?: string;
     color?: string;
