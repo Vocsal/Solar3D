@@ -9,6 +9,8 @@ export default class Pannel {
     isInsert: boolean = false;
     name?: string;
     className?: string;
+    top?: string;
+    left?: string;
     maxWidth?: string;
     background?: string;
     color?: string;
@@ -28,8 +30,8 @@ export default class Pannel {
         dom.style.color = this.color || defaultColor;
         dom.style.position = 'fixed';
         dom.style.display = 'block';
-        dom.style.top = '0';
-        dom.style.left = '0';
+        dom.style.top = this.top || '0';
+        dom.style.left = this.left || '0';
         this.dom = dom;
         this.createTitle();
         this.createList();
@@ -40,6 +42,8 @@ export default class Pannel {
         this.name = options.name;
         this.className = options.className;
         this.maxWidth = options.maxWidth;
+        this.top = options.top;
+        this.left = options.left;
         this.background = options.background;
         this.color = options.color;
         this.title = options.title;
