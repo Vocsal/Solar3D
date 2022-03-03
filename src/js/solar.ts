@@ -52,7 +52,7 @@ export default class Solar extends Base {
         this.createControls();
         this.addListeners();
         this.setLoop();
-        this.onClickIntersect();
+        this.onClickAndTouchIntersect();
         console.log('this.scene', this.scene)
         this.pannel = new Pannel({
             name: 'planet description',
@@ -286,13 +286,13 @@ export default class Solar extends Base {
         this.raycaster = new THREE.Raycaster();
     }
 
-    onClickIntersect(): void {
+    onClickAndTouchIntersect(): void {
         this.createRaycaster();
-        window.addEventListener("click", (e) => {
-            const dom = e.target || e.srcElement;
+        const callback = (e: MouseEvent | TouchEvent):void => {
+            const dom = e.target;
             if(this.pannel.dom.contains(dom as HTMLElement)) return; // 点击面板跳过
             if(this.controlsType !== Config.controlsList.orbit) return; // 非轨道控制器跳过
-            this.setMousePos(e);
+            this.setMousePos(e instanceof TouchEvent ? e.touches[0] : e);
             const intersects = this.getInterSects();
             const planetIntersection: THREE.Intersection = intersects.find(({object}) => Object.keys(Config.planets).includes(object.name));
             if(!planetIntersection) {
@@ -302,6 +302,8 @@ export default class Solar extends Base {
                 this.pannel.setList(Config.descriptions[planetName]);
             }
             this.pannel.update();
-        })
+        }
+        window.addEventListener("click", callback);
+        window.addEventListener("touchstart", callback);
     }
 }
