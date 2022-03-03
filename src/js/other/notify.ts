@@ -27,7 +27,7 @@ export default class Notify {
         return notyInfo("切换使用不同控制器");
     }
 
-    static initOritController(): notyJs.notyContent {
+    static initoOritController(): notyJs.notyContent {
         return notyInfo("轨道控制器：通过鼠标拖拽查看不同角度")
     }
 

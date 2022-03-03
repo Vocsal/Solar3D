@@ -55,7 +55,6 @@ export default class Solar extends Base {
         this.addListeners();
         this.setLoop();
         this.onClickAndTouchIntersect();
-        console.log('this.scene', this.scene)
         this.pannel = new Pannel({
             name: 'planet description',
             title: '介绍',
@@ -202,10 +201,11 @@ export default class Solar extends Base {
             this.createFlyControls();
             this.resetCamera();
             Notify.introFlyController();
+            Notify.introPlanetClick();
         } else if(this.controlsType === Config.controlsList.orbit) {
             this.createOrbitControls();
             this.resetCamera();
-            Notify.initOritController();
+            Notify.initoOritController();
             Notify.introPlanetClick();
         } else if(this.controlsType === Config.controlsList.sync) {
             Notify.introSyncController();
@@ -293,7 +293,7 @@ export default class Solar extends Base {
         const callback = debounce((e: MouseEvent | TouchEvent):void => {
             const dom = e.target;
             if(this.pannel.dom.contains(dom as HTMLElement)) return; // 点击面板跳过
-            if(this.controlsType !== Config.controlsList.orbit) return; // 非轨道控制器跳过
+            if(this.controlsType !== Config.controlsList.orbit && this.controlsType !== Config.controlsList.fly) return; // 非轨道或飞行控制器跳过
             this.setMousePos(e instanceof TouchEvent ? e.touches[0] : e);
             const intersects = this.getInterSects();
             const planetIntersection: THREE.Intersection = intersects.find(({object}) => Object.keys(Config.planets).includes(object.name));
