@@ -22,6 +22,8 @@ import { FlyControls } from "three/examples/jsm/controls/FlyControls.js";
 import Pannel from "src/js/other/pannel";
 import Notify from "src/js/other/Notify";
 
+import debounce from "lodash/debounce";
+
 export default class Solar extends Base {
     sun: Sun;
     earth: Earth;
@@ -288,7 +290,7 @@ export default class Solar extends Base {
 
     onClickAndTouchIntersect(): void {
         this.createRaycaster();
-        const callback = (e: MouseEvent | TouchEvent):void => {
+        const callback = debounce((e: MouseEvent | TouchEvent):void => {
             const dom = e.target;
             if(this.pannel.dom.contains(dom as HTMLElement)) return; // 点击面板跳过
             if(this.controlsType !== Config.controlsList.orbit) return; // 非轨道控制器跳过
@@ -302,7 +304,7 @@ export default class Solar extends Base {
                 this.pannel.setList(Config.descriptions[planetName]);
             }
             this.pannel.update();
-        }
+        }, 100);
         window.addEventListener("click", callback);
         window.addEventListener("touchstart", callback);
     }
