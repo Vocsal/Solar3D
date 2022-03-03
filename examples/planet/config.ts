@@ -30,59 +30,59 @@ const radius = 1;
 const scale = 2;
 const CameraToCenterDistance = 3;
 const CameraFov = calculatePerspectiveCameraFov(radius, CameraToCenterDistance, scale);
-
+const RatioOfRotationPeriod = 60 * 60;
 const options = {
     Sun: {
         radius,
     },
     Mercury: {
         radius,
-        rotationPeriod: 1407.6 * 60,
+        rotationPeriod: 1407.6 * RatioOfRotationPeriod,
         obliquity: 0.034,
     },
     Venus: {
         radius,
-        rotationPeriod: -5832.5 * 60,
+        rotationPeriod: -5832.5 * RatioOfRotationPeriod,
         obliquity: 177.4,
     },
     Earth: {
         radius,
-        rotationPeriod: 23.9 * 60,
+        rotationPeriod: 23.9 * RatioOfRotationPeriod,
         obliquity: 23.4,
     },
     Moon: {
         radius,
-        rotationPeriod: 655.7 * 60,
+        rotationPeriod: 655.7 * RatioOfRotationPeriod,
         obliquity: 6.7,
     },
     Mars: {
         radius,
-        rotationPeriod: 24.6 * 60,
+        rotationPeriod: 24.6 * RatioOfRotationPeriod,
         obliquity: 25.2,
     },
     Jupiter: {
         radius,
-        rotationPeriod: 9.9 * 60,
+        rotationPeriod: 9.9 * RatioOfRotationPeriod,
         obliquity: 3.1,
     },
     Saturn: {
         radius,
-        rotationPeriod: 10.7 * 60,
+        rotationPeriod: 10.7 * RatioOfRotationPeriod,
         obliquity: 26.7,
     },
     Uranus: {
         radius,
-        rotationPeriod: -17.2 * 60,
+        rotationPeriod: -17.2 * RatioOfRotationPeriod,
         obliquity: 97.8,
     },
     Neptune: {
         radius,
-        rotationPeriod: 16.1 * 60,
+        rotationPeriod: 16.1 * RatioOfRotationPeriod,
         obliquity: 28.3,
     },
     Pluto: {
         radius,
-        rotationPeriod: -153.3 * 60,
+        rotationPeriod: -153.3 * RatioOfRotationPeriod,
         obliquity: 122.5,
     },
 }
@@ -101,4 +101,6 @@ export default {
     options,
 
     ChinaSynchronousMoonVector,
+
+    descriptions: require("src/data/descriptions.json"),
 }
